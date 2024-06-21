@@ -1,0 +1,115 @@
+﻿@model IEnumerable<ElGatoMensajero.Models.paquetes>
+
+@{
+    ViewBag.Title = "Listado de Paquetes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string labelColor;
+}
+
+<h2>Listado de Paquetes</h2>
+
+@if (Session["user_id"] != null && Session["user_rol"].ToString() != "usuario" && Session["user_rol"].ToString() != "repartidor")
+{
+    <p>
+        @Html.ActionLink("Añadir Paquete", "Create", "Paquetes", new { @class = "btn btn-primary" })
+    </p>
+}
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Peso</th>
+                <th>Dimensiones</th>
+                <th>Estado</th>
+                <th>Remitente</th>
+                <th>Origen</th>
+                <th>Receptor</th>
+                <th>Destino</th>
+                <th colspan="2" class="table-action">Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    switch (item.estado_paquetes.estado)
+                    {
+                        case "registrado":
+                        case "enviado":
+                            labelColor = "aqua";
+                            break;
+                        case "entregado":
+                        case "devuelto":
+                            labelColor = "green";
+                            break;
+                        case "extraviado":
+                            labelColor = "red";
+                            break;
+                        case "esperando registro":
+                        case "en espera":
+                            labelColor = "yellow";
+                            break;
+                        default:
+                            labelColor = "aqua";
+                            break;
+                    }
+
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.peso)</td>
+                        <td>@Html.DisplayFor(modelItem => item.dimensiones)</td>
+                        <td>
+                            <small class="label bg-@labelColor capitalize">@Html.DisplayFor(modelItem => item.estado_paquetes.estado)</small>
+                        </td>
+                        <td>
+                            @if (item.personas != null)
+                            {
+                                if (item.personas.rol == "usuario")
+                                {
+                                    <a href="@Url.Action("Perfil", "Usuarios", new { id = item.personas.id })">@Html.DisplayFor(modelItem => item.personas.nombre)</a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Perfil", "Empleados", new { id = item.personas.id })">@Html.DisplayFor(modelItem => item.personas.nombre)</a>
+                                }
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.nombreOrigen)
+                            }
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.direccionOrigen)</td>
+                        <td>
+                            @if (item.personas1 != null)
+                            {
+                                if (item.personas1.rol == "usuario")
+                                {
+                                    <a href="@Url.Action("Perfil", "Usuarios", new { id = item.personas1.id })">@Html.DisplayFor(modelItem => item.personas1.nombre)</a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Perfil", "Empleados", new { id = item.personas1.id })">@Html.DisplayFor(modelItem => item.personas1.nombre)</a>
+                                }
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.nombreDestino)
+                            }
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.direccionDestino)</td>
+                        <td class="table-botton"><a class="btn btn-warning" href="@Url.Action("Edit", "paquetes", new { id = item.id })"><i class="fa fa-edit"></i></a></td>
+                        <td class="table-botton"><a class="btn btn-primary" href="@Url.Action("Details", "paquetes", new { id = item.id })"><i class="fa fa-truck"></i></a></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="9" class="text-center bg-danger">No se han encontrado resultados.</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>

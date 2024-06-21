@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ElGatoMensajero.Models.transportes>
+
+@{
+    ViewBag.Title = "Listado de Vehículos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Listado de Vehículos</h2>
+
+<p>
+    @Html.ActionLink("Añadir Transportes", "Create", "Transporte", new { @class = "btn btn-primary" })
+</p>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Matriculo</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Consumo</th>
+                <th>Kilómetros</th>
+                <th>Fecha Matriculación</th>
+                <th>Sede</th>
+                <th colspan="2" class="table-action">Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.matricula)</td>
+                <td>@Html.DisplayFor(modelItem => item.marca)</td>
+                <td>@Html.DisplayFor(modelItem => item.modelo)</td>
+                <td>@Html.DisplayFor(modelItem => item.consumo)</td>
+                <td>@Html.DisplayFor(modelItem => item.km)</td>
+                <td>@Html.DisplayFor(modelItem => item.fecha_matriculacion)</td>
+                <td>@Html.DisplayFor(modelItem => item.sedes.localidad)</td>
+                <td class="table-botton"><a class="btn btn-warning" href="@Url.Action("Edit", "Transportes", new { id = item.matricula })"><i class="fa fa-edit"></i></a></td>
+                <td class="table-botton"><a class="btn btn-primary" href="@Url.Action("Details", "Transportes", new { id = item.matricula })"><i class="fa fa-truck"></i></a></td>
+            </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="9" class="text-center bg-danger">No se han encontrado resultados.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

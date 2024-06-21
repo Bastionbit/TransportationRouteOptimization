@@ -1,0 +1,62 @@
+﻿@model IEnumerable<ElGatoMensajero.Models.empleados>
+
+@{
+    ViewBag.Title = "Listado de Empleados";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Listado de Empleados</h2>
+
+<p>
+    @Html.ActionLink("Añadir Empleado", "Create", "Empleados", new { @class = "btn btn-primary" })
+</p>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>DNI</th>
+                <th>S. Social</th>
+                <th>Teléfono</th>
+                <th>Dirección</th>
+                <th>F. Nacimiento</th>
+                <th>Fin Contrato</th>
+                <th>Provincia</th>
+                <th>Puesto</th>
+                <th colspan="2">Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.personas.email)</td>
+                        <td>@Html.DisplayFor(modelItem => item.personas.nombre)</td>
+                        <td>@Html.DisplayFor(modelItem => item.personas.apellidos)</td>
+                        <td>@Html.DisplayFor(modelItem => item.dni)</td>
+                        <td>@Html.DisplayFor(modelItem => item.nss)</td>
+                        <td>@Html.DisplayFor(modelItem => item.personas.telefono)</td>
+                        <td>@Html.DisplayFor(modelItem => item.personas.direccion)</td>
+                        <td>@Html.DisplayFor(modelItem => item.personas.fecha_nacimiento)</td>
+                        <td>@(item.fecha_fin == null ? "Indefinido" : item.fecha_fin.ToString())</td>
+                        <td>@Html.DisplayFor(modelItem => item.sedes.localidad)</td>
+                        <td>@Html.DisplayFor(modelItem => item.tipo_empleados.descripcion)</td>
+                        <td class="table-botton"><a class="btn btn-warning" href="@Url.Action("Edit", "Empleados", new { id = item.id })"><i class="fa fa-edit"></i></a></td>
+                        <td class="table-botton"><a class="btn btn-primary" href="@Url.Action("Details", "Empleados", new { id = item.id })"><i class="fa fa-user"></i></a></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="13" class="text-center bg-danger">No se han encontrado resultados.</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>

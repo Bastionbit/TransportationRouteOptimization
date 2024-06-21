@@ -1,0 +1,402 @@
+﻿@model ElGatoMensajero.Models.sedes
+@using System.Globalization;
+
+@{
+    ViewBag.Title = "Sede de " + Model.localidad;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string labelColor;
+}
+
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+        <section id="profile-info">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Sede</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="avatar"><i class="fa fa-building fa-6x"></i></div>
+                    <h2>Sede de @Html.DisplayFor(model => model.localidad)</h2>
+                    <dl class="data-table">
+                        <dt>Provincia:</dt>
+                        <dd>@Html.DisplayFor(model => model.provincia)</dd>
+                        <dt>Dirección:</dt>
+                        <dd>@Html.DisplayFor(model => model.calle) @Html.DisplayFor(model => model.num)</dd>
+                        <dt>Teléfono:</dt>
+                        <dd>@Html.DisplayFor(model => model.telefono)</dd>
+                    </dl>
+                </div>
+                <div class="box-footer">
+                    <a class="btn btn-primary pull-right" href="@Url.Action("Edit", "Sedes", new { id = Model.id })"><i class="fa fa-edit"></i> Editar Sede</a>
+                </div>
+            </div>
+        </section>
+        <section id="track-map">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Localización de la Sede</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    @if (Model.latitud != null && Model.longitud != null)
+                    {
+                        <div id="map" class="google-maps">
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">
+                            <p>No se ha podido cargar la localización actual del paquete. Intentalo más tarde. Si sigue ocurriendo, contacte con un Administrador.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col-md-6 col-xs-12">
+        <section id="employeds-info">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Empleados</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>Teléfono</th>
+                                    <th>DNI</th>
+                                    <th>Contrato</th>
+                                    <th>Puesto</th>
+                                    <th colspan="2">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.empleados != null)
+                                {
+                                    foreach (var item in Model.empleados)
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(modelItem => item.personas.nombre) @Html.DisplayFor(modelItem => item.personas.apellidos)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.personas.email)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.personas.telefono)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.dni)</td>
+
+                                            @if (item.fecha_fin == null)
+                                            {
+                                                <td>Indefinido</td>
+                                            }
+                                            else
+                                            {
+
+                                                <td>@Html.DisplayFor(modelItem => item.fecha_fin)</td>
+                                            }
+
+                                            <td><a href="@Url.Action("Details", "TipoEmpleados", new { id = item.tipo })">@Html.DisplayFor(modelItem => item.tipo_empleados.descripcion)</a></td>
+                                            <td class="table-botton"><a class="btn btn-warning" href="@Url.Action("Edit", "Empleados", new { id = item.id })"><i class="fa fa-edit"></i></a></td>
+                                            <td class="table-botton"><a class="btn btn-primary" href="@Url.Action("Details", "Empleados", new { id = item.id })"><i class="fa fa-user"></i></a></td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="8" class="text-center bg-danger">No se han encontrado resultados.</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="package-info">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Paquetes de la Sede</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Estado</th>
+                                    <th>Remitente</th>
+                                    <th>Receptor</th>
+                                    <th colspan="2" class="text-center table-action">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.paquetes != null)
+                                {
+                                    foreach (var item in Model.paquetes)
+                                    {
+                                        switch (item.estado_paquetes.estado)
+                                        {
+                                            case "registrado":
+                                            case "enviado":
+                                                labelColor = "aqua";
+                                                break;
+                                            case "entregado":
+                                            case "devuelto":
+                                                labelColor = "green";
+                                                break;
+                                            case "extraviado":
+                                                labelColor = "red";
+                                                break;
+                                            case "esperando registro":
+                                            case "en espera":
+                                                labelColor = "yellow";
+                                                break;
+                                            default:
+                                                labelColor = "aqua";
+                                                break;
+                                        }
+
+                                        <tr>
+                                            <td>
+                                                <small class="label bg-@labelColor capitalize">@Html.DisplayFor(modelItem => item.estado_paquetes.estado)</small>
+                                            </td>
+                                            <td>
+                                                @if (item.personas != null)
+                                                {
+                                                    if (item.personas.rol == "usuarios")
+                                                    {
+                                                        <a href="@Url.Action("Perfil", "Usuarios", new { id = item.personas.id })">@Html.DisplayFor(modelItem => item.personas.nombre)</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="@Url.Action("Perfil", "Empleados", new { id = item.personas.id })">@Html.DisplayFor(modelItem => item.personas.nombre)</a>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.nombreOrigen)
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (item.personas1 != null)
+                                                {
+                                                    if (item.personas1.rol == "usuarios")
+                                                    {
+                                                        <a href="@Url.Action("Perfil", "Usuarios", new { id = item.personas1.id })">@Html.DisplayFor(modelItem => item.personas1.nombre)</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="@Url.Action("Perfil", "Empleados", new { id = item.personas1.id })">@Html.DisplayFor(modelItem => item.personas1.nombre)</a>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.nombreDestino)
+                                                }
+                                            </td>
+                                            <td class="table-botton"><a class="btn btn-warning" href="@Url.Action("Edit", "Paquetes", new { id = item.id })"><i class="fa fa-edit"></i></a></td>
+                                            <td class="table-botton"><a class="btn btn-primary" href="@Url.Action("Details", "Paquetes", new { id = item.id })"><i class="fa fa-truck"></i></a></td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="5" class="text-center bg-danger">No se han encontrado resultados.</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="vehicle-info">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Vehículos de la Sede</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Matricula</th>
+                                    <th>Marca</th>
+                                    <th>Modelo</th>
+                                    <th>Consumo</th>
+                                    <th>KM</th>
+                                    <th>Matriculación</th>
+                                    <th colspan="2" class="text-center table-action">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.transportes != null)
+                                {
+                                    foreach (var item in Model.transportes)
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(modelItem => item.matricula)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.marca)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.modelo)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.consumo)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.km)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.fecha_matriculacion)</td>
+                                            <td class="table-botton"><a class="btn btn-warning" href="@Url.Action("Edit", "paquetes", new { id = item.matricula })"><i class="fa fa-edit"></i></a></td>
+                                            <td class="table-botton"><a class="btn btn-primary" href="@Url.Action("Details", "paquetes", new { id = item.matricula })"><i class="fa fa-truck"></i></a></td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="8" class="text-center bg-danger">No se han encontrado resultados.</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+<!-- Delete Modal -->
+<div class="modal fade" id="modal-default" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 id="title-delete" class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p id="msg-delete"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
+                <a id="btn-delete" class="btn btn-danger">Borrar</a>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section ViewSpecificJavascript
+{
+    <script>
+        $(document).ready(function () {
+            $(".open-modal").on("click", function () {
+                var link;
+                var text;
+                var type = $(this).data("type");
+
+
+                if (type == "Paquete") {
+                    link = "@Url.Action("Delete", "Paquetes", new { id = "-1" })";
+                    text = "¿Realmente deseas borrar el <b>paquete #" + $(this).data("id") + "</b>?";
+                }
+                else {
+                    link = "@Url.Action("Delete", "Transportes", new { id = "-1" })";
+                    text = "¿Realmente deseas borrar el vehículo <b> " + $(this).data("marca") + " " + $(this).data("modelo") + " (" + $(this).data("id") + ")</b>?";
+                }
+
+                link = link.replace("-1", $(this).data("id"));
+
+                $("#title-delete").text("Borrar " + type);
+                $("#msg-delete").html(text);
+                $("#btn-delete").attr("href", link);
+            });
+        });
+    </script>
+    @if (Model.latitud != null && Model.longitud != null)
+    {
+        <script src="https://maps.googleapis.com/maps/api/js?key=GOOGLEAPIKEY"></script>
+        <script>
+        // In this example, we center the map, and add a marker, using a LatLng object
+        // literal instead of a google.maps.LatLng object. LatLng object literals are
+        // a convenient way to add a LatLng coordinate and, in most cases, can be used
+        // in place of a google.maps.LatLng object.
+
+        var map;
+        var latitud = @Model.latitud.ToString().Replace(",", ".");
+        var longitud = @Model.longitud.ToString().Replace(",", ".");
+
+        function initialize() {
+            var mapOptions = {
+                zoom: 16,
+                center: { lat: latitud, lng: longitud }
+            };
+            map = new google.maps.Map(document.getElementById('map'),
+                mapOptions);
+
+            var marker = new google.maps.Marker({
+                // The below line is equivalent to writing:
+                // position: new google.maps.LatLng(-34.397, 150.644)
+                position: { lat: latitud, lng: longitud },
+                map: map
+            });
+
+            // You can use a LatLng literal in place of a google.maps.LatLng object when
+            // creating the Marker object. Once the Marker object is instantiated, its
+            // position will be available as a google.maps.LatLng object. In this case,
+            // we retrieve the marker's position using the
+            // google.maps.LatLng.getPosition() method.
+            var infowindow = new google.maps.InfoWindow({
+                content: '<p>Marker Location:' + marker.getPosition() + '</p>'
+            });
+
+            google.maps.event.addListener(marker, 'click', function () {
+                infowindow.open(map, marker);
+            });
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+        </script>
+    }
+}

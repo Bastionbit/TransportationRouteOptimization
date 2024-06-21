@@ -1,0 +1,55 @@
+﻿
+@{
+    /**/
+
+    ViewBag.Title = "Correo";
+}
+
+<h2>Correo</h2>
+
+@{
+    var eMailSent = false;
+    if (IsPost)
+    {
+        eMailSent = true;
+
+        var eMailSubject = Request["subject"];
+
+        if (eMailSubject == null)
+        {
+            eMailSubject = "Asunto vacio";
+        }
+
+        var eMailMessage = Request["message"];
+
+        if (eMailMessage == null)
+        {
+            eMailMessage = "Mensaje vacio lala";
+        }
+
+        WebMail.SmtpServer = "smtp.live.com";
+        WebMail.SmtpPort = 25;
+        WebMail.UserName = "anni_magicgirls@hotmail.com";
+        WebMail.From = "anni_magicgirls@hotmail.com";
+        WebMail.Password = "magicgirls";
+        WebMail.Send(to: "anastasia.chinaeva@outlook.es", subject: eMailSubject, body: eMailMessage);
+    }
+}
+
+<!--&lt;form method="POST"&gt;
+
+&lt;p&gt;Asunto&lt;/p&gt;
+
+&lt;input type="text" name="subject" value="Motivo del mensaje"
+/&gt;&lt;br /&gt;
+
+&lt;p&gt;Mensaje&lt;/p&gt;
+
+&lt;textarea rows="6" cols="40" name="message"&gt;Escriba su mensaje
+aquí&lt;/textarea&gt;&lt;br /&gt;
+
+&lt;input type="submit" value="Enviar" /&gt;
+
+&lt;/form&gt;-->
+
+

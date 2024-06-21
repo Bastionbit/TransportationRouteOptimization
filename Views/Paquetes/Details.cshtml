@@ -1,0 +1,275 @@
+﻿@model ElGatoMensajero.Models.paquetes
+
+@{
+    ViewBag.Title = "Paquete #" + Model.id;
+    ViewBag.ShowTitle = false;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string labelColor;
+}
+
+@switch (Model.estado)
+{
+    case "registrado":
+    case "enviado":
+        labelColor = "aqua";
+        break;
+    case "entregado":
+    case "devuelto":
+        labelColor = "green";
+        break;
+    case "extraviado":
+        labelColor = "red";
+        break;
+    case "esperando registro":
+    case "en espera":
+        labelColor = "yellow";
+        break;
+    default:
+        labelColor = "aqua";
+        break;
+}
+
+<div id="main-container">
+    <div class="row">
+        <div class="col-xs-12">
+            <section id="profile-info">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Paquete #@Model.id</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-5 col-xs-12">
+                                <h2>Remitente</h2>
+
+                                @if (Model.personas != null)
+                                {
+                                    <div class="avatar"><img src="~/Content/img/user.jpg" alt="Perfil de @Html.DisplayName(Model.personas.nombre)" title="Perfil de @Html.DisplayName(Model.personas.nombre)" class="img-circle" /></div>
+                                    <h3>@Html.DisplayName(Model.personas.nombre) @Html.DisplayFor(model => model.personas.apellidos)</h3>
+                                }
+                                else
+                                {
+                                    <div class="avatar"><img src="~/Content/img/user.jpg" alt="Perfil de @Html.DisplayName(Model.nombreOrigen)" title="Perfil de @Html.DisplayName(Model.nombreOrigen)" class="img-circle" /></div>
+                                    <h3>@Html.DisplayName(Model.nombreOrigen)</h3>
+                                }
+
+                                <dl class="data-table">
+                                    <dt>Dirección:</dt>
+                                    <dd>@Html.DisplayFor(model => model.direccionOrigen)</dd>
+                                    <dt>Código Postal:</dt>
+                                    <dd>@Html.DisplayFor(model => model.codPostalOrigen)</dd>
+                                    <dt>Teléfono:</dt>
+                                    <dd>@Html.DisplayFor(model => model.tlOrigen)</dd>
+                                </dl>
+                            </div>
+                            <div class="col-md-2 col-xs-12">
+                                <div class="track-animation">
+                                    <div id="truck">
+                                        <i class="fa fa-truck-r fa-5x"></i>
+                                    </div>
+                                </div>
+                                <span><small class="label bg-@labelColor capitalize">@Model.estado</small></span>
+                                <dl class="data-table">
+                                    <dt>Peso:</dt>
+                                    <dd>@Html.DisplayFor(model => model.peso)</dd>
+                                    <dt>Dimensiones:</dt>
+                                    <dd>@Html.DisplayFor(model => model.dimensiones)</dd>
+                                </dl>
+                            </div>
+                            <div class="col-md-5 col-xs-12">
+                                <h2>Receptor</h2>
+
+                                @if (Model.personas1 != null)
+                                {
+                                    <div class="avatar"><img src="~/Content/img/user.jpg" alt="Perfil de @Html.DisplayName(Model.personas1.nombre)" title="Perfil de @Html.DisplayName(Model.personas1.nombre)" class="img-circle" /></div>
+                                    <h3>@Html.DisplayName(Model.personas1.nombre) @Html.DisplayFor(model => model.personas1.apellidos)</h3>
+                                }
+                                else
+                                {
+                                    <div class="avatar"><img src="~/Content/img/user.jpg" alt="Perfil de @Html.DisplayName(Model.nombreDestino)" title="Perfil de @Html.DisplayName(Model.nombreDestino)" class="img-circle" /></div>
+                                    <h3>@Html.DisplayName(Model.nombreDestino)</h3>
+                                }
+
+                                <dl class="data-table">
+                                    <dt>Dirección:</dt>
+                                    <dd>@Html.DisplayFor(model => model.direccionDestino)</dd>
+                                    <dt>Código Postal:</dt>
+                                    <dd>@Html.DisplayFor(model => model.codPostalDestino)</dd>
+                                    <dt>Teléfono:</dt>
+                                    <dd>@Html.DisplayFor(model => model.tlDestino)</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+
+                        @if (Session["user_id"] != null && Session["user_rol"].ToString() != "usuario" && Session["user_rol"].ToString() != "repartidor")
+                        {
+                            <a class="btn btn-primary" href="@Url.Action("Edit", "Paquetes", new { id = Model.id })"><i class="fa fa-edit"></i> Editar Paquete</a>
+                        }
+
+                        <a class="btn btn-primary pull-right" href="@Url.Action("Search", "Paquetes")"><i class="fa fa-search"></i> Realizar otra Busqueda</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <section id="track-map">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Localización del Paquete</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        @if (Model.latitud != null && Model.longitud != null)
+                        {
+                            <div id="map" class="google-maps">
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">
+                                <p>No se ha podido cargar la localización actual del paquete. Intentalo más tarde. Si sigue ocurriendo, contacte con un Administrador.</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <section id="track-info">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Seguimiento del Paquete</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="mini-th">Estado</th>
+                                        <th>Mensaje</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="mini-th"><span><small class="label bg-aqua capitalize">Registrado</small></span></td>
+                                        <td>El paquete ha sido registrado.</td>
+                                    </tr>
+                                    @foreach (var sede in Model.sedes)
+                                    {
+                                        if (sede != null)
+                                        {
+                                            <tr>
+                                                <td class="mini-th"><span><small class="label bg-aqua capitalize">Registrado</small></span></td>
+                                                <td>El paquete ha llegado a la sede (@sede.localidad)</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+@if (Session["user_id"] != null)
+{
+    <div>
+        @Html.ActionLink("Volver", "Index")
+    </div>
+}
+
+@section ViewSpecificJavascript
+{
+    <script>
+        var $block = $('#truck');
+
+        function scroll() {
+            $block.css('marginLeft', 0);
+            $block.animate({ marginLeft: "0.6in" },
+                {
+                    duration: 2500,
+                    complete: function () {
+                        scroll();
+                    }
+                }
+            )
+        };
+
+        scroll();
+    </script>
+    @if (Model.latitud != null && Model.longitud != null)
+    {
+        <script src="https://maps.googleapis.com/maps/api/js?key=GOOGLEAPIKEY"></script>
+        <script>
+            // In this example, we center the map, and add a marker, using a LatLng object
+            // literal instead of a google.maps.LatLng object. LatLng object literals are
+            // a convenient way to add a LatLng coordinate and, in most cases, can be used
+            // in place of a google.maps.LatLng object.
+
+            var map;
+            var latitud = @Model.latitud.ToString().Replace(",", ".");
+            var longitud = @Model.longitud.ToString().Replace(",", ".");
+
+            function initialize() {
+                var mapOptions = {
+                    zoom: 16,
+                    center: { lat: latitud, lng: longitud }
+                };
+                map = new google.maps.Map(document.getElementById('map'),
+                    mapOptions);
+
+                var marker = new google.maps.Marker({
+                    // The below line is equivalent to writing:
+                    // position: new google.maps.LatLng(-34.397, 150.644)
+                    position: { lat: latitud, lng: longitud },
+                    map: map
+                });
+
+                // You can use a LatLng literal in place of a google.maps.LatLng object when
+                // creating the Marker object. Once the Marker object is instantiated, its
+                // position will be available as a google.maps.LatLng object. In this case,
+                // we retrieve the marker's position using the
+                // google.maps.LatLng.getPosition() method.
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<p>Marker Location:' + marker.getPosition() + '</p>'
+                });
+
+                google.maps.event.addListener(marker, 'click', function () {
+                    infowindow.open(map, marker);
+                });
+            }
+
+            google.maps.event.addDomListener(window, 'load', initialize);
+        </script>
+    }
+}

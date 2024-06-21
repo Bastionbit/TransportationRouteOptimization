@@ -1,0 +1,91 @@
+﻿@model ElGatoMensajero.Models.transportes
+
+@{
+    ViewBag.Title = "Vehículo " + Model.marca + " " + Model.modelo + " (" + Model.matricula + ")";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+        <section id="profile-info">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Tipo de Empleado</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="avatar"><i class="fa fa-truck fa-6x"></i></div>
+                    <h2>@Html.DisplayFor(model => model.marca) @Html.DisplayFor(model => model.modelo) (@Html.DisplayFor(model => model.matricula))</h2>
+                    <dl class="data-table">
+                        <dt>Consumo:</dt>
+                        <dd>@Html.DisplayFor(model => model.consumo)</dd>
+                        <dt>Kilómetros:</dt>
+                        <dd>@Html.DisplayFor(model => model.km)</dd>
+                        <dt>Fecha de Matriculación:</dt>
+                        <dd>@Html.DisplayFor(model => model.fecha_matriculacion)</dd>
+                        <dt>Sede:</dt>
+                        <dd><a href="@Url.Action("Details", "Sedes", new { id = Model.sedes.id })">@Html.DisplayFor(model => model.sedes.localidad)</a></dd>
+                    </dl>
+                </div>
+                <div class="box-footer">
+                    <a class="btn btn-primary pull-right" href="@Url.Action("Edit", "Transportes", new { id = Model.matricula })"><i class="fa fa-edit"></i> Editar Vehículo</a>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col-md-6 col-xs-12">
+        <section id="employeds-info">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Conducido por</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Empleado</th>
+                                    <th>Día</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.conduce != null)
+                                {
+                                    foreach (var item in Model.conduce)
+                                    {
+                                        <tr>
+                                            <td><a href="@Url.Action("Details", "Empleados", new { id = item.empleados.id })">@Html.DisplayFor(modelItem => item.empleados.personas.nombre) @Html.DisplayFor(modelItem => item.empleados.personas.apellidos)</a></td>
+                                            <td>@Html.DisplayFor(modelItem => item.fecha)</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="2" class="text-center bg-danger">No se han encontrado resultados.</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

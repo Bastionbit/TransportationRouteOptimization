@@ -1,0 +1,181 @@
+﻿@{
+    ViewBag.Title = "Inicio";
+    ViewBag.ShowTitle = false;
+    ViewBag.NoPadding = true;
+}
+
+@if (ViewBag.Exception != null)
+{
+    <div class="alert alert-danger">
+        <p>@ViewBag.Exception</p>
+    </div>
+}
+
+<section id="slide">
+    <div class="row">
+        <div class="col-xs-12">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="~/Content/img/carretera01.png" alt="Rutas Opmitizadas">
+
+                        <div class="carousel-caption black">
+                            <h3>Rutas Opmitizadas</h3>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="~/Content/img/carretera02.jpg" alt="Transporte Rápido">
+
+                        <div class="carousel-caption">
+                            <h3>Transporte Rápido</h3>
+                        </div>
+                    </div>
+                </div>
+                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                    <span class="fa fa-angle-left"></span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                    <span class="fa fa-angle-right"></span>
+                </a>
+            </div>
+            <div id="progressbar" style="width: 0%"></div>
+        </div>
+    </div>
+</section>
+<section id="main-buttons">
+    <div id="buttons-container" class="">
+        <div class="row">
+            @if (Session["user_id"] != null)
+            {
+                if (Session["user_rol"].ToString() == "administrador")
+                {
+                    <div class="col-md-3 col-xs-12">
+                        <a href="@Url.Action("Calculate", "Paquetes")">
+                            <section class="home-button">
+                                <h2><i class="fa fa-map"></i></h2>
+                                <h3>Calcular Rutas</h3>
+                            </section>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-xs-12">
+                        <a href="@Url.Action("Stats", "Home")">
+                            <section class="home-button">
+                                <h2><i class="fa fa-bar-chart"></i></h2>
+                                <h3>Estadísticas</h3>
+                            </section>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-xs-12">
+                        <a href="@Url.Action("Create", "Paquetes")">
+                            <section class="home-button">
+                                <h2><i class="fa fa-truck"></i> <i class="fa fa-plus"></i></h2>
+                                <h3>Registrar Paquete</h3>
+                            </section>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-offset-3 col-md-3 col-xs-12">
+                        <a href="@Url.Action("Index", "Paquetes")">
+                            <section class="home-button">
+                                <h2><i class="fa fa-truck"></i> <i class="fa fa-archive"></i></h2>
+                                <h3>Mis Paquetes</h3>
+                            </section>
+                        </a>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-md-offset-3 col-md-3 col-xs-12">
+                    <a href="@Url.Action("Login", "Home")">
+                        <section class="home-button">
+                            <h2><i class="fa fa-sign-in"></i></h2>
+                            <h3>Entrar</h3>
+                        </section>
+                    </a>
+                </div>
+            }
+            <div class="col-md-3 col-xs-12">
+                <a href="@Url.Action("Search", "Paquetes")">
+                    <section class="home-button">
+                        <h2><i class="fa fa-truck-r"></i></h2>
+                        <h3>Localiza tu envio</h3>
+                    </section>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="services">
+    <div id="services-container">
+        <div class="row">
+            <div class="col-md-offset-2 col-md-4 col-xs-6">
+                <h2>Servicios</h2>
+                <ul class="list-services">
+                    <li>Seguimiento de paquetes en tiempo real</li>
+                    <li>Rutas optimizadas</li>
+                    <li>Envio express</li>
+                    <li>Notificación de envio de paquetes</li>
+                </ul>
+            </div>
+            <div class="col-xs-6 promotion-image">
+                <img src="~/Content/img/repartidor.png" alt="Icono hecho por Vectors Market de FlatIcon" title="Servicios El Gato Mensajero">
+            </div>
+        </div>
+    </div>
+</section>
+<section id="rate">
+    <div id="rate-container">
+        <h2>Tarifa</h2>
+        <div class="row">
+            <div class="col-md-offset-3 col-md-3 col-xs-12">
+                <section class="rate">
+                    <h3>Básica</h3>
+                    <p>Envio a partir de 5 días</p>
+                    <p>Seguimiento en tiempo real del paquete</p>
+                    <p>Desde solo 1,50€</p>
+                </section>
+                <a class="btn btn-primary"><i class="fa fa-plus"></i> Información</a>
+            </div>
+            <div class="col-md-3 col-xs-12">
+                <section class="rate">
+                    <h3>Express</h3>
+                    <p>Envio a partir de 2h</p>
+                    <p>Seguimiento en tiempo real del paquete</p>
+                    <p>Desde solo 5€</p>
+                </section>
+                <a class="btn btn-primary"><i class="fa fa-plus"></i> Información</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section ViewSpecificJavascript
+{
+    <script>
+        $(document).ready(function () {
+            var percent = 0, bar = $('#progressbar'), crsl = $('#carousel-example-generic');
+            function progressBarCarousel() {
+                bar.css({ width: percent + '%' });
+                percent = percent + 0.5;
+                if (percent > 100) {
+                    percent = 0;
+                    crsl.carousel('next');
+                }
+            }
+            crsl.carousel({
+                interval: false,
+                pause: true
+            }).on('slid.bs.carousel', function () { }); var barInterval = setInterval(progressBarCarousel, 30);
+            crsl.hover(
+                function () {
+                    clearInterval(barInterval);
+                },
+                function () {
+                    barInterval = setInterval(progressBarCarousel, 30);
+                })
+        });
+    </script>
+}

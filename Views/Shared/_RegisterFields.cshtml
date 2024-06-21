@@ -1,0 +1,47 @@
+﻿@model ElGatoMensajero.Models.personas
+
+<div class="form-group has-feedback">
+    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email", rel = "tooltip", title = "Introduce el Correo Electrónico" } })
+    <span class="fa fa-envelope form-control-feedback"></span>
+    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+</div>
+<div class="form-group has-feedback">
+    @Html.PasswordFor(model => model.password, new { @class = "form-control", placeholder = "Contraseña", rel = "tooltip", title = "Introduce la Contraseña" })
+    <span class="fa fa-lock form-control-feedback"></span>
+    @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+</div>
+<div class="form-group has-feedback">
+    @Html.PasswordFor(model => model.repeatPassword, new { @class = "form-control", placeholder = "Repetir Contraseña", rel = "tooltip", title = "Repite la Contraseña" })
+    <span class="fa fa-lock form-control-feedback"></span>
+    @Html.ValidationMessageFor(model => model.repeatPassword, "", new { @class = "text-danger" })
+</div>
+<div class="form-group has-feedback">
+    @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control", placeholder = "Nombre", rel = "tooltip", title = "Introduce el Nombre" } })
+    <span class="fa fa-user form-control-feedback"></span>
+    @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+</div>
+<div class="form-group has-feedback">
+    @Html.EditorFor(model => model.apellidos, new { htmlAttributes = new { @class = "form-control", placeholder = "Apellidos", rel = "tooltip", title = "Introduce el Apellido" } })
+    <span class="fa fa-user form-control-feedback"></span>
+    @Html.ValidationMessageFor(model => model.apellidos, "", new { @class = "text-danger" })
+</div>
+<div class="form-group has-feedback">
+    @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control", placeholder = "Teléfono", rel = "tooltip", title = "Introduce el Teléfono" } })
+    <span class="fa fa-phone form-control-feedback "></span>
+    @Html.ValidationMessageFor(model => model.telefono, "", new { @class = "text-danger" })
+</div>
+<div class="form-group has-feedback">
+    @Html.EditorFor(model => model.fecha_nacimiento, new { htmlAttributes = new { @class = "form-control", placeholder = "Fecha de Nacimiento", rel = "tooltip", title = "Introduce la Fecha de Nacimiento" } })
+    <span class="fa fa-calendar form-control-feedback"></span>
+    @Html.ValidationMessageFor(model => model.fecha_nacimiento, "", new { @class = "text-danger" })
+</div>
+<div class="form-group has-feedback">
+    @Html.EditorFor(model => model.direccion, new { htmlAttributes = new { @class = "form-control", placeholder = "Dirección", rel = "tooltip", title = "Introduce la Dirección" } })
+    <span class="fa fa-home form-control-feedback"></span>
+    @Html.ValidationMessageFor(model => model.direccion, "", new { @class = "text-danger" })
+</div>
+<div class="form-group has-feedback">
+    @Html.EditorFor(model => model.codPostal, new { htmlAttributes = new { @class = "form-control", placeholder = "Código Postal", rel = "tooltip", title = "Introduce el Código Postal" } })
+    <span class="fa fa-envelope form-control-feedback"></span>
+    @Html.ValidationMessageFor(model => model.codPostal, "", new { @class = "text-danger" })
+</div>

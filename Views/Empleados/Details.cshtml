@@ -1,0 +1,237 @@
+﻿@model ElGatoMensajero.Models.empleados
+
+@{
+    ViewBag.Title = "Perfil de " + Model.personas.nombre;
+    ViewBag.ShowTitle = false;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string labelColor, tipoEmpleado;
+}
+
+@switch(Model.personas.rol)
+{
+    case "administrador":
+        tipoEmpleado = "Jefe";
+        break;
+    case "encargadoZona":
+        tipoEmpleado = "Encargado de Zona";
+        break;
+    case "encargadoSede":
+        tipoEmpleado = "Encargado de Sede";
+        break;
+    default:
+        tipoEmpleado = "Repartidor";
+        break;
+}
+
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+        <section id="profile-info">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Perfil</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="avatar"><img src="~/Content/img/user.jpg" alt="Perfil de @Html.DisplayName(Model.personas.nombre)" title="Perfil de @Html.DisplayName(Model.personas.nombre)" class="img-circle" /></div>
+                    <h2>@Html.DisplayFor(model => model.personas.nombre) @Html.DisplayFor(model => model.personas.apellidos)</h2>
+                    <h4>@tipoEmpleado</h4>
+                    <h5>@Html.DisplayFor(model => model.sedes.localidad), @Html.DisplayFor(model => model.sedes.provincia)</h5>
+                    <dl class="data-table">
+                        <dt>Email:</dt>
+                        <dd>@Html.DisplayFor(model => model.personas.email)</dd>
+                        <dt>Teléfono:</dt>
+                        <dd>@Html.DisplayFor(model => model.personas.telefono)</dd>
+                        <dt>Dirección:</dt>
+                        <dd>@Html.DisplayFor(model => model.personas.direccion)</dd>
+                        <dt>DNI:</dt>
+                        <dd>@Html.DisplayFor(model => model.dni)</dd>
+                        <dt>Nº Seguridad Social:</dt>
+                        <dd>@Html.DisplayFor(model => model.nss)</dd>
+                        <dt>Fecha Nacimiento:</dt>
+                        <dd>@Html.DisplayFor(model => model.personas.fecha_nacimiento)</dd>
+
+                        @if (Model.fecha_fin != null)
+                        {
+                        <dt>Fecha Inicio Contrato:</dt>
+                        <dd>@Html.DisplayFor(model => model.fecha_inicio)</dd>
+                        <dt>Fecha Fin Contrato:</dt>
+                        <dd>@Html.DisplayFor(model => model.fecha_fin)</dd>
+                        }
+                        else
+                        {
+                        <dt>Tipo de Contrato:</dt>
+                        <dd>Indefinido</dd>
+                        }
+                    </dl>
+                </div>
+                <div class="box-footer">
+                    <a class="btn btn-primary pull-right" href="@Url.Action("Edit", "Empleados", new { id = Model.id })"><i class="fa fa-edit"></i> Editar Perfil</a>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col-md-6 col-xs-12">
+        <section id="package-info">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Paquetes Transportados</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Estado</th>
+                                    <th>Remitente</th>
+                                    <th>Receptor</th>
+                                    <th colspan="2" class="text-center table-action">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.paquetes != null)
+                                {
+                                    foreach (var item in Model.paquetes)
+                                    {
+                                        switch (item.estado_paquetes.estado)
+                                        {
+                                            case "registrado":
+                                            case "enviado":
+                                                labelColor = "aqua";
+                                                break;
+                                            case "entregado":
+                                            case "devuelto":
+                                                labelColor = "green";
+                                                break;
+                                            case "extraviado":
+                                                labelColor = "red";
+                                                break;
+                                            case "esperando registro":
+                                            case "en espera":
+                                                labelColor = "yellow";
+                                                break;
+                                            default:
+                                                labelColor = "aqua";
+                                                break;
+                                        }
+
+                                        <tr>
+                                            <td>
+                                                <small class="label bg-@labelColor capitalize">@Html.DisplayFor(modelItem => item.estado_paquetes.estado)</small>
+                                            </td>
+                                            <td>
+                                                @if (item.personas != null)
+                                                {
+                                                    <a href="@Url.Action("Perfil", "Usuarios", new { id = item.personas.id })">@Html.DisplayFor(modelItem => item.personas.nombre)</a>
+                                                }
+                                                else
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.nombreOrigen)
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (item.personas1 != null)
+                                                {
+                                                    <a href="@Url.Action("Perfil", "Usuarios", new { id = item.personas1.id })">@Html.DisplayFor(modelItem => item.personas1.nombre)</a>
+                                                }
+                                                else
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.nombreDestino)
+                                                }
+                                            </td>
+                                            <td class="table-botton"><a class="btn btn-warning" href="@Url.Action("Edit", "Paquetes", new { id = item.id })"><i class="fa fa-edit"></i></a></td>
+                                            <td class="table-botton"><a class="btn btn-primary" href="@Url.Action("Details", "Paquetes", new { id = item.id })"><i class="fa fa-truck"></i></a></td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="5" class="text-center bg-danger">No se han encontrado resultados.</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        @if (Session["user_id"] != null && Session["user_rol"].ToString() == "repartidor")
+        {
+            <section id="vehicles-info">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Vehículos</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Vehículo</th>
+                                        <th>Día</th>
+                                        <th @(Session["user_id"] != null && Session["user_rol"].ToString() != "repartidor" && Session["user_rol"].ToString() != "usuario" ? "colspan=\"2\"" : "")>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.conduce != null)
+                                    {
+                                        foreach (var item in Model.conduce)
+                                        {
+                                            <tr>
+                                                <td>@Html.DisplayFor(modelItem => item.transportes.marca) @Html.DisplayFor(modelItem => item.transportes.modelo) (@Html.DisplayFor(modelItem => item.transportes.matricula))</td>
+                                                <td>@Html.DisplayFor(modelItem => item.fecha)</td>
+
+                                                @if (Session["user_id"] != null && Session["user_rol"].ToString() != "repartidor" && Session["user_rol"].ToString() != "usuario")
+                                                {
+                                                    <td class="table-botton"><a class="btn btn-warning" href="@Url.Action("Edit", "Transportes", new { id = item.matricula })"><i class="fa fa-edit"></i></a></td>
+                                                }
+                                            
+                                                <td class="table-botton"><a class="btn btn-primary" href="@Url.Action("Details", "Transportes", new { id = item.matricula })"><i class="fa fa-truck"></i></a></td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="@(Session["user_id"] != null && Session["user_rol"].ToString() != "repartidor" && Session["user_rol"].ToString() != "usuario" ? "4" : "3")" class="text-center bg-danger">No se han encontrado resultados.</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        }
+        
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Volver", "Index")
+</div>

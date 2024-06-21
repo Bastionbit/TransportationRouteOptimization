@@ -1,0 +1,96 @@
+﻿@model IEnumerable<ElGatoMensajero.Models.usuarios>
+
+@{
+    ViewBag.Title = "Listado de Usuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Listado de Usuarios</h2>
+
+@if (Session["user_id"] != null && Session["user_rol"].ToString() != "repartidor")
+{
+    <p>
+        @Html.ActionLink("Añadir Usuario", "Create", "Usuario", new { @class = "btn btn-primary" })
+    </p>
+}
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Usuario</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Teléfono</th>
+                <th>Dirección</th>
+                <th>Código Postal</th>
+                <th colspan="3" class="table-action">Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.personas.email)</td>
+                        <td>@Html.DisplayFor(modelItem => item.username)</td>
+                        <td>@Html.DisplayFor(modelItem => item.personas.nombre)</td>
+                        <td>@Html.DisplayFor(modelItem => item.personas.apellidos)</td>
+                        <td>@Html.DisplayFor(modelItem => item.personas.telefono)</td>
+                        <td>@Html.DisplayFor(modelItem => item.personas.direccion)</td>
+                        <td>@Html.DisplayFor(modelItem => item.personas.codPostal)</td>
+                        <td class="table-botton"><a class="btn btn-warning" href="@Url.Action("Edit", "Usuarios", new { id = item.id })"><i class="fa fa-edit"></i></a></td>
+                        <td class="table-botton"><a class="btn btn-primary" href="@Url.Action("Details", "Usuarios", new { id = item.id })"><i class="fa fa-user"></i></a></td>
+                        <td class="table-botton"><a class="btn btn-danger open-modal" data-id="@item.id" data-username="@item.username" data-toggle="modal" data-target="#modal-default"><i class="fa fa-trash-o"></i></a></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="10" class="text-center bg-danger">No se han encontrado resultados.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="modal-default" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Borrar Sede</h4>
+            </div>
+            <div class="modal-body">
+                <p id="msg-delete"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
+                <a id="btn-delete" class="btn btn-danger">Borrar</a>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section ViewSpecificJavascript
+{
+    <script>
+        $(document).ready(function () {
+            $(".open-modal").on("click", function () {
+                var link = "@Url.Action("Delete", "Usuarios", new { id = "-1" })";
+                link = link.replace("-1", $(this).data("id"));
+
+                $("#msg-delete").html("¿Realmente deseas borrar el usuario <b>" + $(this).data("username") + "</b>?");
+                $("#btn-delete").attr("href", link);
+            });
+        });
+    </script>
+}

@@ -1,0 +1,50 @@
+﻿@using System.Web.Optimization
+@using WebHelpers.Mvc5.Enum
+
+<!DOCTYPE html>
+<html>
+<head>
+    @Html.Partial("_Head")
+</head>
+
+<body class="@(Session["user_id"] != null ? "hold-transition skin-blue sidebar-mini" : "skin-blue layout-top-nav")">
+    <div class="wrapper">
+        @if (Session["user_id"] != null)
+        {
+            @Html.Partial("_Navbar")
+            @Html.Partial("_Sidebar")
+        }
+
+        <main class="content-wrapper">
+            @if (ViewBag.ShowTitle == true)
+            {
+                <section class="content-header">
+                    <h1>
+                        @ViewBag.Title
+                    </h1>
+                </section>
+            }
+
+            <section class="content no-padding">
+                @Html.Partial("_Header")
+                <div class="@(ViewBag.NoPadding != true ? "padding-15" : "")">
+                    @if (ViewBag.CustomError != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.CustomError
+                        </div>
+                    }
+
+                    @RenderBody()
+                </div>
+            </section>
+        </main>
+        @Html.Partial("_Footer")
+    </div>
+
+    <script src="@RouteJs.RouteJsHandler.HandlerUrl"></script>
+    <script src="@EnumHandler.HandlerUrl"></script>
+    @Scripts.Render("~/Bundles/js")
+    @RenderSection("ViewSpecificJavascript", required: false)
+</body>
+</html>

@@ -1,0 +1,25 @@
+﻿@using System.Web.Optimization
+@using WebHelpers.Mvc5.Enum
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+    @if (!string.IsNullOrWhiteSpace(ViewBag.Title))
+    {
+        @ViewBag.Title@: -
+    }
+    El Gato Mensajero
+</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<!-- Favicon -->
+<link rel="shortcut icon" href="~/Content/img/favicon/favicon.ico">
+<link rel="icon" href="~/Content/img/favicon/favicon.ico">
+<link href='~/Content/img/favicon/touch-icon-ipad-retina.png' rel='apple-touch-icon' type='150x150'>
+<link href='~/Content/img/favicon/touch-icon-ipad.png' rel='apple-touch-icon' sizes='72x72'>
+<link href='~/Content/img/favicon/touch-icon-iphone.png' rel='apple-touch-icon' sizes='114x114'>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+@Styles.Render("~/Bundles/css")
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->

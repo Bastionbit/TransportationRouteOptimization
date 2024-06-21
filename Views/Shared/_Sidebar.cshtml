@@ -1,0 +1,78 @@
+﻿@using WebHelpers.Mvc5
+<aside class="main-sidebar">
+    <section class="sidebar">
+        @* BEGIN Menu *@
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">Panel de Control</li>
+            <li class="@Url.IsLinkActive("Index", "Home")">
+                <a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> <span>Inicio</span></a>
+            </li>
+            <li class="treeview @Url.IsLinkActive("Index", "Paquetes") @Url.IsLinkActive("Create", "Paquetes") @Url.IsLinkActive("Details", "Paquetes") @Url.IsLinkActive("Search", "Paquetes")">
+                <a href="#">
+                    <i class="fa fa-truck"></i> <span>Paquetes</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+
+                    @if (Session["user_id"] != null && Session["user_rol"].ToString() != "usuario" && Session["user_rol"].ToString() != "repartidor")
+                    {
+                        <li class="@Url.IsLinkActive("Create", "Paquetes")">
+                            <a href="@Url.Action("Create", "Paquetes")"><i class="fa fa-plus"></i> <span>Añadir Paquete</span></a>
+                        </li>
+                    }
+                    
+                    <li class="@Url.IsLinkActive("Index", "Paquetes")">
+                        <a href="@Url.Action("Index", "Paquetes")"><i class="fa fa-archive"></i> <span>Mis Paquetes</span></a>
+                    </li>
+                    <li class="@Url.IsLinkActive("Details", "Paquetes") @Url.IsLinkActive("Search", "Paquetes")">
+                        <a href="@Url.Action("Search", "Paquetes")"><i class="fa fa-search"></i> <span>Búscar Paquete</span></a>
+                    </li>
+                </ul>
+            </li>
+            @if (Session["user_id"] != null && Session["user_rol"].ToString() != "usuario")
+            {
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-cogs"></i> <span>Administración</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="@Url.IsLinkActive("Index", "Usuarios")">
+                            <a href="@Url.Action("Index", "Usuarios")"><i class="fa fa-user"></i> <span>Usuarios</span></a>
+                        </li>
+
+                        @if (Session["user_rol"].ToString() != "repartidor")
+                        {
+                            <li class="@Url.IsLinkActive("Index", "Sedes")">
+                                <a href="@Url.Action("Index", "Sedes")"><i class="fa fa-building"></i> <span>Sedes</span></a>
+                            </li>
+                            <li class="@Url.IsLinkActive("Index", "Transportes")">
+                                <a href="@Url.Action("Index", "Transportes")"><i class="fa fa-truck"></i> <span>Vehículos</span></a>
+                            </li>
+                            <li class="@Url.IsLinkActive("Index", "Empleados")">
+                                <a href="@Url.Action("Index", "Empleados")"><i class="fa fa-users"></i> <span>Empleados</span></a>
+                            </li>
+
+                            if(Session["user_rol"].ToString() == "administrador")
+                            {
+                                <li class="@Url.IsLinkActive("Index", "TipoEmpleados")">
+                                <a href="@Url.Action("Index", "TipoEmpleados")"><i class="fa fa-user-circle-o"></i> <span>Tipos de Empleado</span></a>
+                                </li>
+                                <li class="@Url.IsLinkActive("Calculate", "Paquetes")">
+                                    <a href="@Url.Action("Calculate", "Paquetes")"><i class="fa fa-map"></i> <span>Calcular Rutas</span></a>
+                                </li>
+                            }
+                        }
+                        
+                    </ul>
+                </li>
+            }
+            
+        </ul>
+        @* END Menu *@
+    </section>
+</aside>

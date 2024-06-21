@@ -1,0 +1,899 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="elGatoMensajeroModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="conduce">
+          <Key>
+            <PropertyRef Name="matricula" />
+            <PropertyRef Name="empleado" />
+            <PropertyRef Name="fecha" />
+          </Key>
+          <Property Name="matricula" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="empleado" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="empleados">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="dni" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="nss" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="fecha_inicio" Type="date" Nullable="false" />
+          <Property Name="fecha_fin" Type="date" />
+          <Property Name="tipo" Type="int" />
+          <Property Name="sede" Type="int" />
+        </EntityType>
+        <EntityType Name="estado_paquetes">
+          <Key>
+            <PropertyRef Name="estado" />
+          </Key>
+          <Property Name="estado" Type="varchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="paquetes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="peso" Type="float" Nullable="false" />
+          <Property Name="dimensiones" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="estado" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="emisor" Type="int" />
+          <Property Name="receptor" Type="int" />
+          <Property Name="nombreOrigen" Type="varchar" MaxLength="255" />
+          <Property Name="nombreDestino" Type="varchar" MaxLength="255" />
+          <Property Name="direccionOrigen" Type="varchar" MaxLength="100" />
+          <Property Name="codPostalOrigen" Type="int" />
+          <Property Name="tlOrigen" Type="int" />
+          <Property Name="tlDestino" Type="int" />
+          <Property Name="direccionDestino" Type="varchar" MaxLength="100" />
+          <Property Name="codPostalDestino" Type="int" />
+          <Property Name="longitud" Type="float" />
+          <Property Name="latitud" Type="float" />
+        </EntityType>
+        <EntityType Name="personas">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="apellidos" Type="varchar" MaxLength="255" />
+          <Property Name="telefono" Type="int" Nullable="false" />
+          <Property Name="fecha_nacimiento" Type="date" Nullable="false" />
+          <Property Name="direccion" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="codPostal" Type="int" Nullable="false" />
+          <Property Name="rol" Type="varchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="reparte">
+          <Key>
+            <PropertyRef Name="paquete" />
+            <PropertyRef Name="empleado" />
+          </Key>
+          <Property Name="paquete" Type="int" Nullable="false" />
+          <Property Name="empleado" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="tipo" />
+          </Key>
+          <Property Name="tipo" Type="varchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sedes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="provincia" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="localidad" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="cp" Type="int" Nullable="false" />
+          <Property Name="calle" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="num" Type="int" />
+          <Property Name="longitud" Type="float" />
+          <Property Name="latitud" Type="float" />
+          <Property Name="telefono" Type="int" />
+        </EntityType>
+        <EntityType Name="tipo_empleados">
+          <Key>
+            <PropertyRef Name="tipo" />
+          </Key>
+          <Property Name="tipo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="salario" Type="float" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tramita">
+          <Key>
+            <PropertyRef Name="paquete" />
+            <PropertyRef Name="sede" />
+          </Key>
+          <Property Name="paquete" Type="int" Nullable="false" />
+          <Property Name="sede" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="transportes">
+          <Key>
+            <PropertyRef Name="matricula" />
+          </Key>
+          <Property Name="matricula" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="marca" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="modelo" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="consumo" Type="float" Nullable="false" />
+          <Property Name="km" Type="float" Nullable="false" />
+          <Property Name="fecha_matriculacion" Type="date" Nullable="false" />
+          <Property Name="sede" Type="int" />
+        </EntityType>
+        <EntityType Name="usuarios">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__conduce__emplead__71D1E811">
+          <End Role="empleados" Type="Self.empleados" Multiplicity="1" />
+          <End Role="conduce" Type="Self.conduce" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="empleados">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="conduce">
+              <PropertyRef Name="empleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__conduce__matricu__70DDC3D8">
+          <End Role="transportes" Type="Self.transportes" Multiplicity="1" />
+          <End Role="conduce" Type="Self.conduce" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="transportes">
+              <PropertyRef Name="matricula" />
+            </Principal>
+            <Dependent Role="conduce">
+              <PropertyRef Name="matricula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__empleados__id__59FA5E80">
+          <End Role="personas" Type="Self.personas" Multiplicity="1" />
+          <End Role="empleados" Type="Self.empleados" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="personas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="empleados">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__empleados__sede__5BE2A6F2">
+          <End Role="sedes" Type="Self.sedes" Multiplicity="0..1" />
+          <End Role="empleados" Type="Self.empleados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sedes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="empleados">
+              <PropertyRef Name="sede" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__empleados__tipo__5AEE82B9">
+          <End Role="tipo_empleados" Type="Self.tipo_empleados" Multiplicity="0..1" />
+          <End Role="empleados" Type="Self.empleados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tipo_empleados">
+              <PropertyRef Name="tipo" />
+            </Principal>
+            <Dependent Role="empleados">
+              <PropertyRef Name="tipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__paquetes__emisor__656C112C">
+          <End Role="personas" Type="Self.personas" Multiplicity="0..1" />
+          <End Role="paquetes" Type="Self.paquetes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="personas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="paquetes">
+              <PropertyRef Name="emisor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__paquetes__estado__6477ECF3">
+          <End Role="estado_paquetes" Type="Self.estado_paquetes" Multiplicity="1" />
+          <End Role="paquetes" Type="Self.paquetes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="estado_paquetes">
+              <PropertyRef Name="estado" />
+            </Principal>
+            <Dependent Role="paquetes">
+              <PropertyRef Name="estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__paquetes__recept__66603565">
+          <End Role="personas" Type="Self.personas" Multiplicity="0..1" />
+          <End Role="paquetes" Type="Self.paquetes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="personas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="paquetes">
+              <PropertyRef Name="receptor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__personas__rol__5441852A">
+          <End Role="roles" Type="Self.roles" Multiplicity="1" />
+          <End Role="personas" Type="Self.personas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="tipo" />
+            </Principal>
+            <Dependent Role="personas">
+              <PropertyRef Name="rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__reparte__emplead__6A30C649">
+          <End Role="empleados" Type="Self.empleados" Multiplicity="1" />
+          <End Role="reparte" Type="Self.reparte" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="empleados">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="reparte">
+              <PropertyRef Name="empleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__reparte__paquete__693CA210">
+          <End Role="paquetes" Type="Self.paquetes" Multiplicity="1" />
+          <End Role="reparte" Type="Self.reparte" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paquetes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="reparte">
+              <PropertyRef Name="paquete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tramita__paquete__6D0D32F4">
+          <End Role="paquetes" Type="Self.paquetes" Multiplicity="1" />
+          <End Role="tramita" Type="Self.tramita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paquetes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tramita">
+              <PropertyRef Name="paquete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tramita__sede__6E01572D">
+          <End Role="sedes" Type="Self.sedes" Multiplicity="1" />
+          <End Role="tramita" Type="Self.tramita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sedes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tramita">
+              <PropertyRef Name="sede" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__transporte__sede__4CA06362">
+          <End Role="sedes" Type="Self.sedes" Multiplicity="0..1" />
+          <End Role="transportes" Type="Self.transportes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sedes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transportes">
+              <PropertyRef Name="sede" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__usuarios__id__5FB337D6">
+          <End Role="personas" Type="Self.personas" Multiplicity="1" />
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="personas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuarios">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="elGatoMensajeroModelStoreContainer">
+          <EntitySet Name="conduce" EntityType="Self.conduce" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="empleados" EntityType="Self.empleados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="estado_paquetes" EntityType="Self.estado_paquetes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="paquetes" EntityType="Self.paquetes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personas" EntityType="Self.personas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="reparte" EntityType="Self.reparte" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="roles" EntityType="Self.roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sedes" EntityType="Self.sedes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tipo_empleados" EntityType="Self.tipo_empleados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tramita" EntityType="Self.tramita" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="transportes" EntityType="Self.transportes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usuarios" EntityType="Self.usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__conduce__emplead__71D1E811" Association="Self.FK__conduce__emplead__71D1E811">
+            <End Role="empleados" EntitySet="empleados" />
+            <End Role="conduce" EntitySet="conduce" />
+          </AssociationSet>
+          <AssociationSet Name="FK__conduce__matricu__70DDC3D8" Association="Self.FK__conduce__matricu__70DDC3D8">
+            <End Role="transportes" EntitySet="transportes" />
+            <End Role="conduce" EntitySet="conduce" />
+          </AssociationSet>
+          <AssociationSet Name="FK__empleados__id__59FA5E80" Association="Self.FK__empleados__id__59FA5E80">
+            <End Role="personas" EntitySet="personas" />
+            <End Role="empleados" EntitySet="empleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK__empleados__sede__5BE2A6F2" Association="Self.FK__empleados__sede__5BE2A6F2">
+            <End Role="sedes" EntitySet="sedes" />
+            <End Role="empleados" EntitySet="empleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK__empleados__tipo__5AEE82B9" Association="Self.FK__empleados__tipo__5AEE82B9">
+            <End Role="tipo_empleados" EntitySet="tipo_empleados" />
+            <End Role="empleados" EntitySet="empleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK__paquetes__emisor__656C112C" Association="Self.FK__paquetes__emisor__656C112C">
+            <End Role="personas" EntitySet="personas" />
+            <End Role="paquetes" EntitySet="paquetes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__paquetes__estado__6477ECF3" Association="Self.FK__paquetes__estado__6477ECF3">
+            <End Role="estado_paquetes" EntitySet="estado_paquetes" />
+            <End Role="paquetes" EntitySet="paquetes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__paquetes__recept__66603565" Association="Self.FK__paquetes__recept__66603565">
+            <End Role="personas" EntitySet="personas" />
+            <End Role="paquetes" EntitySet="paquetes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__personas__rol__5441852A" Association="Self.FK__personas__rol__5441852A">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="personas" EntitySet="personas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__reparte__emplead__6A30C649" Association="Self.FK__reparte__emplead__6A30C649">
+            <End Role="empleados" EntitySet="empleados" />
+            <End Role="reparte" EntitySet="reparte" />
+          </AssociationSet>
+          <AssociationSet Name="FK__reparte__paquete__693CA210" Association="Self.FK__reparte__paquete__693CA210">
+            <End Role="paquetes" EntitySet="paquetes" />
+            <End Role="reparte" EntitySet="reparte" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tramita__paquete__6D0D32F4" Association="Self.FK__tramita__paquete__6D0D32F4">
+            <End Role="paquetes" EntitySet="paquetes" />
+            <End Role="tramita" EntitySet="tramita" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tramita__sede__6E01572D" Association="Self.FK__tramita__sede__6E01572D">
+            <End Role="sedes" EntitySet="sedes" />
+            <End Role="tramita" EntitySet="tramita" />
+          </AssociationSet>
+          <AssociationSet Name="FK__transporte__sede__4CA06362" Association="Self.FK__transporte__sede__4CA06362">
+            <End Role="sedes" EntitySet="sedes" />
+            <End Role="transportes" EntitySet="transportes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__usuarios__id__5FB337D6" Association="Self.FK__usuarios__id__5FB337D6">
+            <End Role="personas" EntitySet="personas" />
+            <End Role="usuarios" EntitySet="usuarios" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="elGatoMensajeroModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="conduce">
+          <Key>
+            <PropertyRef Name="matricula" />
+            <PropertyRef Name="empleado" />
+            <PropertyRef Name="fecha" />
+          </Key>
+          <Property Name="matricula" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="empleado" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="empleados" Relationship="Self.FK__conduce__emplead__71D1E811" FromRole="conduce" ToRole="empleados" />
+          <NavigationProperty Name="transportes" Relationship="Self.FK__conduce__matricu__70DDC3D8" FromRole="conduce" ToRole="transportes" />
+        </EntityType>
+        <EntityType Name="empleados">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="dni" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nss" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fecha_inicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fecha_fin" Type="DateTime" Precision="0" />
+          <Property Name="tipo" Type="Int32" />
+          <Property Name="sede" Type="Int32" />
+          <NavigationProperty Name="conduce" Relationship="Self.FK__conduce__emplead__71D1E811" FromRole="empleados" ToRole="conduce" />
+          <NavigationProperty Name="personas" Relationship="Self.FK__empleados__id__59FA5E80" FromRole="empleados" ToRole="personas" />
+          <NavigationProperty Name="sedes" Relationship="Self.FK__empleados__sede__5BE2A6F2" FromRole="empleados" ToRole="sedes" />
+          <NavigationProperty Name="tipo_empleados" Relationship="Self.FK__empleados__tipo__5AEE82B9" FromRole="empleados" ToRole="tipo_empleados" />
+          <NavigationProperty Name="paquetes" Relationship="Self.reparte" FromRole="empleados" ToRole="paquetes" />
+        </EntityType>
+        <EntityType Name="estado_paquetes">
+          <Key>
+            <PropertyRef Name="estado" />
+          </Key>
+          <Property Name="estado" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="paquetes" Relationship="Self.FK__paquetes__estado__6477ECF3" FromRole="estado_paquetes" ToRole="paquetes" />
+        </EntityType>
+        <EntityType Name="paquetes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="peso" Type="Double" Nullable="false" />
+          <Property Name="dimensiones" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estado" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="emisor" Type="Int32" />
+          <Property Name="receptor" Type="Int32" />
+          <Property Name="nombreOrigen" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="nombreDestino" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="direccionOrigen" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="codPostalOrigen" Type="Int32" />
+          <Property Name="tlOrigen" Type="Int32" />
+          <Property Name="tlDestino" Type="Int32" />
+          <Property Name="direccionDestino" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="codPostalDestino" Type="Int32" />
+          <Property Name="longitud" Type="Double" />
+          <Property Name="latitud" Type="Double" />
+          <NavigationProperty Name="estado_paquetes" Relationship="Self.FK__paquetes__estado__6477ECF3" FromRole="paquetes" ToRole="estado_paquetes" />
+          <NavigationProperty Name="personas" Relationship="Self.FK__paquetes__emisor__656C112C" FromRole="paquetes" ToRole="personas" />
+          <NavigationProperty Name="personas1" Relationship="Self.FK__paquetes__recept__66603565" FromRole="paquetes" ToRole="personas" />
+          <NavigationProperty Name="empleados" Relationship="Self.reparte" FromRole="paquetes" ToRole="empleados" />
+          <NavigationProperty Name="sedes" Relationship="Self.tramita" FromRole="paquetes" ToRole="sedes" />
+        </EntityType>
+        <EntityType Name="personas">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellidos" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="Int32" Nullable="false" />
+          <Property Name="fecha_nacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="codPostal" Type="Int32" Nullable="false" />
+          <Property Name="rol" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="empleados" Relationship="Self.FK__empleados__id__59FA5E80" FromRole="personas" ToRole="empleados" />
+          <NavigationProperty Name="paquetes" Relationship="Self.FK__paquetes__emisor__656C112C" FromRole="personas" ToRole="paquetes" />
+          <NavigationProperty Name="paquetes1" Relationship="Self.FK__paquetes__recept__66603565" FromRole="personas" ToRole="paquetes" />
+          <NavigationProperty Name="roles" Relationship="Self.FK__personas__rol__5441852A" FromRole="personas" ToRole="roles" />
+          <NavigationProperty Name="usuarios" Relationship="Self.FK__usuarios__id__5FB337D6" FromRole="personas" ToRole="usuarios" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="tipo" />
+          </Key>
+          <Property Name="tipo" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="personas" Relationship="Self.FK__personas__rol__5441852A" FromRole="roles" ToRole="personas" />
+        </EntityType>
+        <EntityType Name="sedes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="provincia" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="localidad" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cp" Type="Int32" Nullable="false" />
+          <Property Name="calle" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="num" Type="Int32" />
+          <Property Name="longitud" Type="Double" />
+          <Property Name="latitud" Type="Double" />
+          <Property Name="telefono" Type="Int32" />
+          <NavigationProperty Name="empleados" Relationship="Self.FK__empleados__sede__5BE2A6F2" FromRole="sedes" ToRole="empleados" />
+          <NavigationProperty Name="transportes" Relationship="Self.FK__transporte__sede__4CA06362" FromRole="sedes" ToRole="transportes" />
+          <NavigationProperty Name="paquetes" Relationship="Self.tramita" FromRole="sedes" ToRole="paquetes" />
+        </EntityType>
+        <EntityType Name="tipo_empleados">
+          <Key>
+            <PropertyRef Name="tipo" />
+          </Key>
+          <Property Name="tipo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="salario" Type="Double" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="empleados" Relationship="Self.FK__empleados__tipo__5AEE82B9" FromRole="tipo_empleados" ToRole="empleados" />
+        </EntityType>
+        <EntityType Name="transportes">
+          <Key>
+            <PropertyRef Name="matricula" />
+          </Key>
+          <Property Name="matricula" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="marca" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="modelo" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="consumo" Type="Double" Nullable="false" />
+          <Property Name="km" Type="Double" Nullable="false" />
+          <Property Name="fecha_matriculacion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="sede" Type="Int32" />
+          <NavigationProperty Name="conduce" Relationship="Self.FK__conduce__matricu__70DDC3D8" FromRole="transportes" ToRole="conduce" />
+          <NavigationProperty Name="sedes" Relationship="Self.FK__transporte__sede__4CA06362" FromRole="transportes" ToRole="sedes" />
+        </EntityType>
+        <EntityType Name="usuarios">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="personas" Relationship="Self.FK__usuarios__id__5FB337D6" FromRole="usuarios" ToRole="personas" />
+        </EntityType>
+        <Association Name="FK__conduce__emplead__71D1E811">
+          <End Role="empleados" Type="Self.empleados" Multiplicity="1" />
+          <End Role="conduce" Type="Self.conduce" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="empleados">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="conduce">
+              <PropertyRef Name="empleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__conduce__matricu__70DDC3D8">
+          <End Role="transportes" Type="Self.transportes" Multiplicity="1" />
+          <End Role="conduce" Type="Self.conduce" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="transportes">
+              <PropertyRef Name="matricula" />
+            </Principal>
+            <Dependent Role="conduce">
+              <PropertyRef Name="matricula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__empleados__id__59FA5E80">
+          <End Role="personas" Type="Self.personas" Multiplicity="1" />
+          <End Role="empleados" Type="Self.empleados" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="personas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="empleados">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__empleados__sede__5BE2A6F2">
+          <End Role="sedes" Type="Self.sedes" Multiplicity="0..1" />
+          <End Role="empleados" Type="Self.empleados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sedes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="empleados">
+              <PropertyRef Name="sede" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__empleados__tipo__5AEE82B9">
+          <End Role="tipo_empleados" Type="Self.tipo_empleados" Multiplicity="0..1" />
+          <End Role="empleados" Type="Self.empleados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tipo_empleados">
+              <PropertyRef Name="tipo" />
+            </Principal>
+            <Dependent Role="empleados">
+              <PropertyRef Name="tipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__paquetes__estado__6477ECF3">
+          <End Role="estado_paquetes" Type="Self.estado_paquetes" Multiplicity="1" />
+          <End Role="paquetes" Type="Self.paquetes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="estado_paquetes">
+              <PropertyRef Name="estado" />
+            </Principal>
+            <Dependent Role="paquetes">
+              <PropertyRef Name="estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__paquetes__emisor__656C112C">
+          <End Role="personas" Type="Self.personas" Multiplicity="0..1" />
+          <End Role="paquetes" Type="Self.paquetes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="personas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="paquetes">
+              <PropertyRef Name="emisor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__paquetes__recept__66603565">
+          <End Role="personas" Type="Self.personas" Multiplicity="0..1" />
+          <End Role="paquetes" Type="Self.paquetes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="personas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="paquetes">
+              <PropertyRef Name="receptor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__personas__rol__5441852A">
+          <End Role="roles" Type="Self.roles" Multiplicity="1" />
+          <End Role="personas" Type="Self.personas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="tipo" />
+            </Principal>
+            <Dependent Role="personas">
+              <PropertyRef Name="rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__usuarios__id__5FB337D6">
+          <End Role="personas" Type="Self.personas" Multiplicity="1" />
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="personas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuarios">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__transporte__sede__4CA06362">
+          <End Role="sedes" Type="Self.sedes" Multiplicity="0..1" />
+          <End Role="transportes" Type="Self.transportes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sedes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transportes">
+              <PropertyRef Name="sede" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="reparte">
+          <End Role="empleados" Type="Self.empleados" Multiplicity="*" />
+          <End Role="paquetes" Type="Self.paquetes" Multiplicity="*" />
+        </Association>
+        <Association Name="tramita">
+          <End Role="paquetes" Type="Self.paquetes" Multiplicity="*" />
+          <End Role="sedes" Type="Self.sedes" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="elGatoMensajeroEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="conduce" EntityType="Self.conduce" />
+          <EntitySet Name="empleados" EntityType="Self.empleados" />
+          <EntitySet Name="estado_paquetes" EntityType="Self.estado_paquetes" />
+          <EntitySet Name="paquetes" EntityType="Self.paquetes" />
+          <EntitySet Name="personas" EntityType="Self.personas" />
+          <EntitySet Name="roles" EntityType="Self.roles" />
+          <EntitySet Name="sedes" EntityType="Self.sedes" />
+          <EntitySet Name="tipo_empleados" EntityType="Self.tipo_empleados" />
+          <EntitySet Name="transportes" EntityType="Self.transportes" />
+          <EntitySet Name="usuarios" EntityType="Self.usuarios" />
+          <AssociationSet Name="FK__conduce__emplead__71D1E811" Association="Self.FK__conduce__emplead__71D1E811">
+            <End Role="empleados" EntitySet="empleados" />
+            <End Role="conduce" EntitySet="conduce" />
+          </AssociationSet>
+          <AssociationSet Name="FK__conduce__matricu__70DDC3D8" Association="Self.FK__conduce__matricu__70DDC3D8">
+            <End Role="transportes" EntitySet="transportes" />
+            <End Role="conduce" EntitySet="conduce" />
+          </AssociationSet>
+          <AssociationSet Name="FK__empleados__id__59FA5E80" Association="Self.FK__empleados__id__59FA5E80">
+            <End Role="personas" EntitySet="personas" />
+            <End Role="empleados" EntitySet="empleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK__empleados__sede__5BE2A6F2" Association="Self.FK__empleados__sede__5BE2A6F2">
+            <End Role="sedes" EntitySet="sedes" />
+            <End Role="empleados" EntitySet="empleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK__empleados__tipo__5AEE82B9" Association="Self.FK__empleados__tipo__5AEE82B9">
+            <End Role="tipo_empleados" EntitySet="tipo_empleados" />
+            <End Role="empleados" EntitySet="empleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK__paquetes__estado__6477ECF3" Association="Self.FK__paquetes__estado__6477ECF3">
+            <End Role="estado_paquetes" EntitySet="estado_paquetes" />
+            <End Role="paquetes" EntitySet="paquetes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__paquetes__emisor__656C112C" Association="Self.FK__paquetes__emisor__656C112C">
+            <End Role="personas" EntitySet="personas" />
+            <End Role="paquetes" EntitySet="paquetes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__paquetes__recept__66603565" Association="Self.FK__paquetes__recept__66603565">
+            <End Role="personas" EntitySet="personas" />
+            <End Role="paquetes" EntitySet="paquetes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__personas__rol__5441852A" Association="Self.FK__personas__rol__5441852A">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="personas" EntitySet="personas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__usuarios__id__5FB337D6" Association="Self.FK__usuarios__id__5FB337D6">
+            <End Role="personas" EntitySet="personas" />
+            <End Role="usuarios" EntitySet="usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK__transporte__sede__4CA06362" Association="Self.FK__transporte__sede__4CA06362">
+            <End Role="sedes" EntitySet="sedes" />
+            <End Role="transportes" EntitySet="transportes" />
+          </AssociationSet>
+          <AssociationSet Name="reparte" Association="Self.reparte">
+            <End Role="empleados" EntitySet="empleados" />
+            <End Role="paquetes" EntitySet="paquetes" />
+          </AssociationSet>
+          <AssociationSet Name="tramita" Association="Self.tramita">
+            <End Role="paquetes" EntitySet="paquetes" />
+            <End Role="sedes" EntitySet="sedes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="elGatoMensajeroModelStoreContainer" CdmEntityContainer="elGatoMensajeroEntities">
+          <EntitySetMapping Name="conduce">
+            <EntityTypeMapping TypeName="elGatoMensajeroModel.conduce">
+              <MappingFragment StoreEntitySet="conduce">
+                <ScalarProperty Name="matricula" ColumnName="matricula" />
+                <ScalarProperty Name="empleado" ColumnName="empleado" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="empleados">
+            <EntityTypeMapping TypeName="elGatoMensajeroModel.empleados">
+              <MappingFragment StoreEntitySet="empleados">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="dni" ColumnName="dni" />
+                <ScalarProperty Name="nss" ColumnName="nss" />
+                <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+                <ScalarProperty Name="fecha_fin" ColumnName="fecha_fin" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="sede" ColumnName="sede" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="estado_paquetes">
+            <EntityTypeMapping TypeName="elGatoMensajeroModel.estado_paquetes">
+              <MappingFragment StoreEntitySet="estado_paquetes">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="paquetes">
+            <EntityTypeMapping TypeName="elGatoMensajeroModel.paquetes">
+              <MappingFragment StoreEntitySet="paquetes">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="peso" ColumnName="peso" />
+                <ScalarProperty Name="dimensiones" ColumnName="dimensiones" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="emisor" ColumnName="emisor" />
+                <ScalarProperty Name="receptor" ColumnName="receptor" />
+                <ScalarProperty Name="nombreOrigen" ColumnName="nombreOrigen" />
+                <ScalarProperty Name="nombreDestino" ColumnName="nombreDestino" />
+                <ScalarProperty Name="direccionOrigen" ColumnName="direccionOrigen" />
+                <ScalarProperty Name="codPostalOrigen" ColumnName="codPostalOrigen" />
+                <ScalarProperty Name="tlOrigen" ColumnName="tlOrigen" />
+                <ScalarProperty Name="tlDestino" ColumnName="tlDestino" />
+                <ScalarProperty Name="direccionDestino" ColumnName="direccionDestino" />
+                <ScalarProperty Name="codPostalDestino" ColumnName="codPostalDestino" />
+                <ScalarProperty Name="longitud" ColumnName="longitud" />
+                <ScalarProperty Name="latitud" ColumnName="latitud" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personas">
+            <EntityTypeMapping TypeName="elGatoMensajeroModel.personas">
+              <MappingFragment StoreEntitySet="personas">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="fecha_nacimiento" ColumnName="fecha_nacimiento" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="codPostal" ColumnName="codPostal" />
+                <ScalarProperty Name="rol" ColumnName="rol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles">
+            <EntityTypeMapping TypeName="elGatoMensajeroModel.roles">
+              <MappingFragment StoreEntitySet="roles">
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sedes">
+            <EntityTypeMapping TypeName="elGatoMensajeroModel.sedes">
+              <MappingFragment StoreEntitySet="sedes">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="provincia" ColumnName="provincia" />
+                <ScalarProperty Name="localidad" ColumnName="localidad" />
+                <ScalarProperty Name="cp" ColumnName="cp" />
+                <ScalarProperty Name="calle" ColumnName="calle" />
+                <ScalarProperty Name="num" ColumnName="num" />
+                <ScalarProperty Name="longitud" ColumnName="longitud" />
+                <ScalarProperty Name="latitud" ColumnName="latitud" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tipo_empleados">
+            <EntityTypeMapping TypeName="elGatoMensajeroModel.tipo_empleados">
+              <MappingFragment StoreEntitySet="tipo_empleados">
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="salario" ColumnName="salario" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="transportes">
+            <EntityTypeMapping TypeName="elGatoMensajeroModel.transportes">
+              <MappingFragment StoreEntitySet="transportes">
+                <ScalarProperty Name="matricula" ColumnName="matricula" />
+                <ScalarProperty Name="marca" ColumnName="marca" />
+                <ScalarProperty Name="modelo" ColumnName="modelo" />
+                <ScalarProperty Name="consumo" ColumnName="consumo" />
+                <ScalarProperty Name="km" ColumnName="km" />
+                <ScalarProperty Name="fecha_matriculacion" ColumnName="fecha_matriculacion" />
+                <ScalarProperty Name="sede" ColumnName="sede" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuarios">
+            <EntityTypeMapping TypeName="elGatoMensajeroModel.usuarios">
+              <MappingFragment StoreEntitySet="usuarios">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="reparte" TypeName="elGatoMensajeroModel.reparte" StoreEntitySet="reparte">
+            <EndProperty Name="empleados">
+              <ScalarProperty Name="id" ColumnName="empleado" />
+            </EndProperty>
+            <EndProperty Name="paquetes">
+              <ScalarProperty Name="id" ColumnName="paquete" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="tramita" TypeName="elGatoMensajeroModel.tramita" StoreEntitySet="tramita">
+            <EndProperty Name="paquetes">
+              <ScalarProperty Name="id" ColumnName="paquete" />
+            </EndProperty>
+            <EndProperty Name="sedes">
+              <ScalarProperty Name="id" ColumnName="sede" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

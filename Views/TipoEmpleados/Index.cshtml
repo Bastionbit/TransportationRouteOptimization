@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ElGatoMensajero.Models.tipo_empleados>
+
+@{
+    ViewBag.Title = "Lista de Tipos de Empleados";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de Tipos de Empleados</h2>
+
+<p>
+    @Html.ActionLink("Añadir Tipo de Empleado", "Create", "TipoEmpleados", new { @class = "btn btn-primary" })
+</p>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Salario</th>
+                <th>Puesto</th>
+                <th colspan="3" class="table-action">Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.salario)</td>
+                        <td>@Html.DisplayFor(modelItem => item.descripcion)</td>
+                        <td class="table-botton"><a class="btn btn-warning" href="@Url.Action("Edit", "TipoEmpleados", new { id = item.tipo })"><i class="fa fa-edit"></i></a></td>
+                        <td class="table-botton"><a class="btn btn-primary" href="@Url.Action("Details", "TipoEmpleados", new { id = item.tipo })"><i class="fa fa-users"></i></a></td>
+                    @if (item.tipo == 1)
+                    {
+                        <td class="table-botton"><a class="btn btn-danger"><i class="fa fa-lock"></i></a></td>
+                    }
+                    else
+                    {
+                        <td class="table-botton"><a class="btn btn-danger" href="@Url.Action("Delete", "TipoEmpleados", new { id = item.tipo })"><i class="fa fa-trash-o"></i></a></td>
+                    }
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center bg-danger">No se han encontrado resultados.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

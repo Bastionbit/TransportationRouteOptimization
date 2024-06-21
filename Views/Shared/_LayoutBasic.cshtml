@@ -1,0 +1,30 @@
+﻿@using System.Web.Optimization
+@using WebHelpers.Mvc5.Enum
+<!DOCTYPE html>
+<html>
+<head>
+    @Html.Partial("_Head")
+</head>
+<body class="hold-transition @Html.Raw((ViewBag.Title == "Login" ? "login" : "register"))-page">
+    <div class="@Html.Raw((ViewBag.Title == "Login" ? "login" : "register"))-box">
+        <div class="@Html.Raw((ViewBag.Title == "Login" ? "login" : "register"))-logo">
+            <a href="@Url.Action("Index", "Home")"><img src="~/Content/img/logo_largo.png" alt="El Gato Mensajero" title="El Gato Mensajero" /></a>
+        </div>
+        <!-- /.login-logo -->
+        @RenderBody()
+    </div>
+    <!-- /.login-box -->
+    <!-- JavaScript -->
+    <script src="@RouteJs.RouteJsHandler.HandlerUrl"></script>
+    <script src="@EnumHandler.HandlerUrl"></script>
+    @Scripts.Render("~/bundles/js/all")
+    <script>
+            $(function () {
+                $('input').iCheck({
+                    checkboxClass: 'icheckbox_square-blue',
+                    radioClass: 'iradio_square-blue',
+                    increaseArea: '20%' // optional
+                });
+            });
+    </script>
+</body>

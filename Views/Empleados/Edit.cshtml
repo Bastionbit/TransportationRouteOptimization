@@ -1,0 +1,81 @@
+﻿@model ElGatoMensajero.Models.empleados
+
+@{
+    ViewBag.Title = "Editar Empleado " + Model.personas.nombre;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="edit-employed">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Editar Empleado @Model.personas.nombre</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body register-data">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="row">
+                        <div class="col-md-6 padding-15">
+                            <div class="form-group has-feedback">
+                                @Html.DropDownList("rol", null, htmlAttributes: new { @class = "form-control", rel = "tooltip", title = "Selecciona el Rol" })
+                                @Html.ValidationMessageFor(model => model.personas.roles, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.Partial("_RegisterFields", Model.personas)
+                        </div>
+                        <div class="col-md-6 padding-15">
+                            <div class="form-group has-feedback">
+                                @Html.EditorFor(model => model.dni, new { htmlAttributes = new { @class = "form-control", placeholder = "DNI", rel = "tooltip", title = "Introduce el DNI" } })
+                                <span class="fa fa-id-card form-control-feedback"></span>
+                                @Html.ValidationMessageFor(model => model.dni, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group has-feedback">
+                                @Html.EditorFor(model => model.nss, new { htmlAttributes = new { @class = "form-control", placeholder = "Nº Seguridad Social", rel = "tooltip", title = "Introduce el Nº Seguridad Social" } })
+                                <span class="fa fa-medkit form-control-feedback"></span>
+                                @Html.ValidationMessageFor(model => model.nss, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group has-feedback">
+                                @Html.EditorFor(model => model.fecha_inicio, new { htmlAttributes = new { @class = "form-control", placeholder = "Fecha de Contratación", rel = "tooltip", title = "Introduce la Fecha de Contratación" } })
+                                <span class="fa fa-calendar form-control-feedback"></span>
+                                @Html.ValidationMessageFor(model => model.fecha_inicio, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group has-feedback">
+                                @Html.EditorFor(model => model.fecha_fin, new { htmlAttributes = new { @class = "form-control", placeholder = "Fecha de Fin", rel = "tooltip", title = "Introduce la Fecha de Fin de Contrato" } })
+                                <span class="fa fa-calendar form-control-feedback"></span>
+                                @Html.ValidationMessageFor(model => model.fecha_fin, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group has-feedback">
+                                @Html.DropDownList("tipo", null, htmlAttributes: new { @class = "form-control", rel = "tooltip", title = "Selecciona la Sede" })
+                                @Html.ValidationMessageFor(model => model.tipo, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group has-feedback">
+                                @Html.DropDownList("sede", null, htmlAttributes: new { @class = "form-control", rel = "tooltip", title = "Selecciona la Sede" })
+                                @Html.ValidationMessageFor(model => model.sede, "", new { @class = "text-danger" })
+                            </div>
+                            @**@
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="text-center">
+                            <input type="submit" value="Editar" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<div>
+    @Html.ActionLink("Volver", "Index")
+</div>

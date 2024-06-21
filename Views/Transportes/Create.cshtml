@@ -1,0 +1,81 @@
+﻿@model ElGatoMensajero.Models.transportes
+
+@{
+    ViewBag.Title = "Añadir Vehículo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="add-vehicle">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Añadir Vehículo</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body register-data">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="row">
+                        <div class="col-md-6 padding-15">
+                            <div class="form-group has-feedback">
+                                @Html.EditorFor(model => model.matricula, new { htmlAttributes = new { @class = "form-control", placeholder = "Matricula", rel = "tooltip", title = "Introduce la Matricula" } })
+                                <span class="fa fa-truck form-control-feedback"></span>
+                                @Html.ValidationMessageFor(model => model.matricula, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group has-feedback">
+                                @Html.EditorFor(model => model.marca, new { htmlAttributes = new { @class = "form-control", placeholder = "Marca", rel = "tooltip", title = "Introduce la Marca" } })
+                                <span class="fa fa-truck form-control-feedback"></span>
+                                @Html.ValidationMessageFor(model => model.marca, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group has-feedback">
+                                @Html.EditorFor(model => model.modelo, new { htmlAttributes = new { @class = "form-control", placeholder = "Modelo", rel = "tooltip", title = "Introduce el Modelo" } })
+                                <span class="fa fa-truck form-control-feedback"></span>
+                                @Html.ValidationMessageFor(model => model.modelo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6 padding-15">
+                            <div class="form-group has-feedback">
+                                @Html.EditorFor(model => model.consumo, new { htmlAttributes = new { @class = "form-control", placeholder = "Consumo", rel = "tooltip", title = "Introduce el Consumo" } })
+                                <span class="fa fa-battery-half form-control-feedback"></span>
+                                @Html.ValidationMessageFor(model => model.consumo, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group has-feedback">
+                                @Html.EditorFor(model => model.km, new { htmlAttributes = new { @class = "form-control", placeholder = "KM", rel = "tooltip", title = "Introduce los Kilómetros" } })
+                                <span class="fa fa-forward form-control-feedback"></span>
+                                @Html.ValidationMessageFor(model => model.modelo, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group has-feedback">
+                                @Html.EditorFor(model => model.fecha_matriculacion, new { htmlAttributes = new { @class = "form-control", placeholder = "Fecha de Matriculación", rel = "tooltip", title = "Introduce la Fecha de Matriculación" } })
+                                <span class="fa fa-calendar form-control-feedback"></span>
+                                @Html.ValidationMessageFor(model => model.modelo, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group has-feedback">
+                                @Html.DropDownList("sede", null, htmlAttributes: new { @class = "form-control", rel = "tooltip", title = "Selecciona la Sede" })
+                                @Html.ValidationMessageFor(model => model.sede, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="text-center">
+                            <input type="submit" value="Añadir" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<div>
+    @Html.ActionLink("Volver", "Index")
+</div>

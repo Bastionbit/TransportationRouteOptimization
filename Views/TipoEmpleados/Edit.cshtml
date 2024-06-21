@@ -1,0 +1,55 @@
+﻿@model ElGatoMensajero.Models.tipo_empleados
+
+@{
+    ViewBag.Title = "Editar Tipo de Empleado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="edit-typeEmployed">
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Editar Tipo de Empleado</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body register-data">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.tipo)
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group has-feedback">
+                                @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control", placeholder = "Nombre del Tipo", rel = "tooltip", title = "Introduce el Nombre del Tipo" } })
+                                <span class="fa fa-users form-control-feedback"></span>
+                                @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group has-feedback">
+                                @Html.EditorFor(model => model.salario, new { htmlAttributes = new { @class = "form-control", placeholder = "Salario", rel = "tooltip", title = "Introduce el Salario" } })
+                                <span class="fa fa-dollar form-control-feedback"></span>
+                                @Html.ValidationMessageFor(model => model.salario, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <div class="text-center">
+                                    <input type="submit" value="Editar" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div>
+    @Html.ActionLink("Volver", "Index")
+</div>
